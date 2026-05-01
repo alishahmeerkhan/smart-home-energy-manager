@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <!-- Fixed: changed 'alink' to 'link' -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='log_in.css') }}">
+    <lint
+</head>
+
+<!-- Fixed: Removed the space in the comment tag -->
+<!-- bg=#dcd9d7 accent=#40474c, fg=#007ba7 -->
+
+<body>
+    <!-- Fixed: Removed the comma, changed class to match the CSS -->
+    <div class="log-in-container" id="login_div">
+        <h1>Sign In</h1>
+        <form action="{{ url_for('login_page') }}" method="post">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Log In</button>
+        </form>
+    </div>
+</body>
+</html>

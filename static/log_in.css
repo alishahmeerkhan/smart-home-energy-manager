@@ -1,0 +1,28 @@
+@font-face {
+    /* Fixed: Gave the font a unique, accurate name */
+    font-family: 'Orbitron';
+    src: url('Orbitron-VariableFont_wght.ttf') format('truetype');
+}
+
+body {
+    background: #dcd9d7; 
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+    margin: 0;
+}
+
+h1 {
+    font-family: 'Orbitron', sans-serif; 
+    margin-bottom: 20px; 
+}
+
+.log-in-container {
+    background: #40474c;
+    width: 400px; 
+    padding: 30px; 
+    color: white; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); 
+}
