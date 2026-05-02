@@ -10,18 +10,12 @@
 <!-- bg=#dcd9d7 accent=#40474c, fg=#007ba7 -->
 
 <body>
-    <!-- The Logo -->
-    <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="Logo" class="logo">
-
-    <div class="custom-shape-divider-top-1777703606">
-        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
-        </svg>
-    </div>
+    {% include 'start_background.html' %}
 
     <!-- The Login Box -->
     <div class="log-in-container" id="login_div">
         <h1>Sign In</h1>
+
         <form action="{{ url_for('login_page') }}" method="post">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
@@ -29,8 +23,25 @@
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
 
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="error-message">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <a href="{{ url_for('forgot_password') }}">Forgot Password?</a>
+
             <button type="submit">Log In</button>
         </form>
     </div>
+
+    <div class="Register-container">
+        <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+    </div>
+
 </body>
 </html>

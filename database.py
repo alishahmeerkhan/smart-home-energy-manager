@@ -11,12 +11,18 @@ pool = oracledb.create_pool(
     increment=1
 )
     
-def getUserData(userid):
+def getUserData(name):
     with pool.acquire() as connection:
         with connection.cursor() as cursor:
-            query = f'SELECT * FROM users WHERE userid = {userid}'
-            for r in cursor.execute(query):
-                return r
+            query = 'SELECT * FROM users WHERE name = :name'
+            
+            # 3. Pass the variable safely into the execute command
+            cursor.execute(query, name=name)
+            
+            # 4. Use fetchone() instead of a for loop. It's much cleaner!
+            user = cursor.fetchone()
+            
+            return user
             
 def createNewUser(userData):
     pass 

@@ -34,15 +34,17 @@ label {
     color: #255271;
 }
 
-.error-message {
-    color: #FF0000;
-    padding: 2px;
-    border-radius: 4px;
-    margin-bottom: 15px;
-    text-align: center;
-    font-family: 'Inter', sans-serif;
-    font-weight: bold;
-    font-size: 14px;
+.log-in-container {
+    position: relative; 
+    z-index: 1; 
+    
+    background: #dcd9d7;
+    width: 400px; 
+    padding: 30px; 
+    color: #007ba7; 
+    border-radius: 8px; 
+    box-shadow: 0 0px 15px 5px rgba(0,0,0,0.3); 
+    opacity: 0.95;
 }
 
 form {

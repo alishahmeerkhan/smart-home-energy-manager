@@ -1,0 +1,44 @@
+.custom-shape-divider-top-1777703606 {
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg); 
+    z-index: 0; 
+}
+
+.custom-shape-divider-top-1777703606 svg {
+    position: relative;
+    display: block;
+    width: calc(178% + 1.3px);
+    height: 600px;
+}
+
+.custom-shape-divider-top-1777703606 .shape-fill {
+    fill: #03396c;
+}
+
+.logo {
+    fill: #fefffd;
+    position: absolute; 
+    z-index: -1;
+    width: 1200px; 
+    opacity: 0.90; 
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.log-in-container {
+    position: relative; 
+    z-index: 1; 
+    
+    background: #dcd9d7;
+    width: 400px; 
+    padding: 30px; 
+    color: #007ba7; 
+    border-radius: 8px; 
+    box-shadow: 0 0px 15px 5px rgba(0,0,0,0.3); 
+    opacity: 0.95;
+}
