@@ -1,28 +1,114 @@
 @font-face {
-    /* Fixed: Gave the font a unique, accurate name */
     font-family: 'Orbitron';
     src: url('Orbitron-VariableFont_wght.ttf') format('truetype');
 }
 
+@font-face {
+    font-family: 'Inter';
+    src: url('Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+
 body {
-    background: #dcd9d7; 
+    background: #f3f4ef; 
     display: flex;
     justify-content: center; 
     align-items: center; 
     height: 100vh; 
     margin: 0;
+    position: relative; /* Helps contain the absolute logo */
+    overflow: hidden; /* Prevents scrollbars if the logo is too big */
 }
 
 h1 {
     font-family: 'Orbitron', sans-serif; 
+    font-weight: 900;
+    font-size: 42px;
     margin-bottom: 20px; 
+    text-align: center;
+    color: #255271;
+}
+
+label {
+    font-family: 'Orbitron', sans-serif; 
+    font-weight: 700;
+    color: #255271;
+}
+
+.custom-shape-divider-top-1777703606 {
+    position: absolute;
+    bottom: 0px; /* 1. Moves the wave from the top to the bottom of the screen */
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg); /* 2. Flips the top wave upside down so it points up! */
+    z-index: 0; /* 3. Ensures it stays behind your login container */
+}
+
+.custom-shape-divider-top-1777703606 svg {
+    position: relative;
+    display: block;
+    width: calc(178% + 1.3px);
+    height: 600px;
+}
+
+.custom-shape-divider-top-1777703606 .shape-fill {
+    fill: #03396c; /* 4. Changed from white to your new deep blue */
+}
+
+.logo {
+    fill: #fefffd;
+    position: absolute; 
+    z-index: -1;
+    width: 1200px; 
+    opacity: 0.90; 
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .log-in-container {
-    background: #40474c;
+    position: relative; /* Required for z-index to work! */
+    z-index: 1; /* Puts it in front of the logo */
+    
+    background: #dcd9d7;
     width: 400px; 
     padding: 30px; 
-    color: white; 
+    color: #007ba7; 
     border-radius: 8px; 
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2); 
+    box-shadow: 0 0px 15px 5px rgba(0,0,0,0.3); 
+    opacity: 0.95;
+}
+
+/* Added some quick styling for your form inputs so they look clean inside the dark box */
+form {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Inter', sans-serif;
+    font-weight: 100;
+}
+
+label {
+    margin-bottom: 5px;
+    color: white;
+}
+
+input {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px;
+    background-color: #007ba7;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #005f82;
 }

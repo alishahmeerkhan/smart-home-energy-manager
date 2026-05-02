@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 from database import getUserData
 
 app = Flask(__name__)
-
+ 
 @app.route('/', methods=['GET', 'POST'])
 def login_page():
     if request.method == 'POST':
