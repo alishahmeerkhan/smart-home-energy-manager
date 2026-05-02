@@ -25,13 +25,13 @@ h1 {
     font-size: 42px;
     margin-bottom: 20px; 
     text-align: center;
-    color: #255271;
+    color: #03396c;
 }
 
 label {
     font-family: 'Orbitron', sans-serif; 
     font-weight: 700;
-    color: #255271;
+    color: #03396c;
 }
 
 .error-message {
@@ -54,7 +54,7 @@ form {
 
 label {
     margin-bottom: 5px;
-    color: white;
+    color: #03396c;
 }
 
 input {
@@ -64,9 +64,13 @@ input {
     border-radius: 4px;
 }
 
+input:focus {
+    outline: 2px solid #03396c;
+}
+
 button {
     padding: 10px;
-    background-color: #007ba7;
+    background-color: #03396c;
     color: white;
     border: none;
     border-radius: 4px;
@@ -79,7 +83,7 @@ button:hover {
 }
 
 a {
-    color: #007ba7;
+    color: #03396c;
     text-decoration: none;
     font-size: 14px;
     margin-top: -8px; 

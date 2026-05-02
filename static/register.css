@@ -25,13 +25,13 @@ h1 {
     font-size: 42px;
     margin-bottom: 20px; 
     text-align: center;
-    color: #255271;
+    color: #03396c;
 }
 
 label {
     font-family: 'Orbitron', sans-serif; 
     font-weight: 700;
-    color: #255271;
+    color: #03396c;
 }
 
 .log-in-container {
@@ -41,7 +41,7 @@ label {
     background: #dcd9d7;
     width: 400px; 
     padding: 30px; 
-    color: #007ba7; 
+    color: #03396c; 
     border-radius: 8px; 
     box-shadow: 0 0px 15px 5px rgba(0,0,0,0.3); 
     opacity: 0.95;
@@ -56,7 +56,11 @@ form {
 
 label {
     margin-bottom: 5px;
-    color: white;
+    color: #03396c;
+}
+
+input:focus {
+    outline: 2px solid #03396c;
 }
 
 input {
@@ -64,11 +68,12 @@ input {
     padding: 10px;
     border: none;
     border-radius: 4px;
+    border-color: #03396c;
 }
 
 button {
     padding: 10px;
-    background-color: #007ba7;
+    background-color: #03396c;
     color: white;
     border: none;
     border-radius: 4px;
@@ -81,7 +86,7 @@ button:hover {
 }
 
 a {
-    color: #007ba7;
+    color: #03396c;
     text-decoration: none;
     font-size: 14px;
     margin-top: -8px; 

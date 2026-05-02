@@ -16,13 +16,15 @@ def getUserData(name):
         with connection.cursor() as cursor:
             query = 'SELECT * FROM users WHERE name = :name'
             
-            # 3. Pass the variable safely into the execute command
             cursor.execute(query, name=name)
-            
-            # 4. Use fetchone() instead of a for loop. It's much cleaner!
             user = cursor.fetchone()
             
             return user
             
 def createNewUser(userData):
-    pass 
+    with pool.acquire() as connection:
+        with connection.cursor() as cursor:
+            query = f'INSERT INTO users(name, email, passwordHash, role) VALUES(:1, :2, :3, :4)'
+            data_to_insert = (userData[0], userData[1], userData[2], 'Homeowner')
+            cursor.execute(query, data_to_insert)
+            connection.commit()
