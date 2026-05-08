@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     {% include 'navbar_template.html' %}
@@ -19,7 +20,59 @@
     </div>
 
     <div class="energy-graph">
-        <h3>Energy Consumption graph here</h3>
+        <canvas id="line-chart" width="1000" height="250"></canvas>
+        <script>
+            var ctx = document.getElementById('line-chart').getContext('2d');
+            var lineChart = new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels: {{ labels | tojson | safe}},
+                    datasets: [{
+                        data: {{ values | tojson | safe }},
+                        fill: true,
+                        backgroundColor: "rgba(3, 57, 108)",
+                        lineTension: 0.3,
+
+                        pointHoverRadius: 6,
+                        pointBackgroundColor: "#f3f4ef",
+                        pointBorderColor: "#03396c",
+                        pointBorderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    maintainAspectRatio: false,
+
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                }
+            });
+        </script>
+    </div>
+
+    <div class="appliances-detail">
+        <h2 class="table-heading">{{ usr }}'s Home</h2>
+        <table>
+            <tr>
+                <th>Device Id</th>
+                <th>Device Name</th>
+                <th>Room</th>
+                <th>Current Wattage</th>
+                <th>Status</th>
+            </tr>
+            {% for appliance in usr_device %}
+                <tr class="{% if appliance.status == 'OFF' %}row-off{% endif %}">
+                    <td>{{ appliance.device_id }}</td>
+                    <td>{{ appliance.device_name }}</td>
+                    <td>{{ appliance.room_name }}</td>
+                    <td>{{ appliance.current_wattage }}</td>
+                    <td>{{ appliance.status }}</td>
+                </tr>
+            {% endfor %}
+        </table>
     </div>
 
 </body>

@@ -16,7 +16,6 @@ body {
     height: 100vh; 
     margin: 0;
     position: relative; 
-    overflow: hidden; 
 }
 
 h1 {
@@ -42,6 +41,12 @@ h3 {
     font-size: 18px;
     margin-bottom: 10px; 
     color: #03396c;
+}
+
+.appliances-detail .table-heading {
+    text-align: center;
+    margin-top: 0px;
+    padding-top: 0px;
 }
 
 .user-welcome {
@@ -70,16 +75,92 @@ h3 {
 
 .energy-graph {
     position: absolute;
-    top: 70px;   /* Matches the vertical height of the user-welcome box */
-    left: 390px;  /* Pushes it safely to the right of the welcome box */
+    top: 70px;
+    left: 390px;
     
     background: #f3f4ef;
     padding: 40px;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    
-    /* I recommend making the graph box wider than 250px so the chart looks good! */
-    max-width: 1050px; 
+    width: 1010px; 
     height: 270px;
+}
+
+.appliances-detail {
+    position: absolute;
+    top: 440px;  
+    left: 40px;  
+    
+    background: #f3f4ef;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    
+    width: 1380px; 
+    height: auto;
+}
+
+.appliances-detail table {
     width: 100%;
+    table-layout: fixed;
+
+    border-collapse: separate; 
+    border-spacing: 0;         
+    border-radius: 12px;       
+    overflow: hidden;
+    border-collapse: collapse;   
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    margin-top: 20px;
+    background-color: #ffffff;
+}
+
+.appliances-detail th:nth-child(2) {
+    width: 30%;
+}
+
+.appliances-detail th:nth-child(3) {
+    width: 20%;
+}
+
+.appliances-detail th {
+    background-color: #03396c;
+    color: #ffffff;
+    text-align: left;
+    text-align: left;
+    padding: 16px 20px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.appliances-detail td {
+    text-align: left;
+    padding: 16px 20px;
+    border-bottom: 1px solid #dcd9d7; 
+    color: #40474c; 
+    font-size: 15px;
+}
+
+.appliances-detail tr:last-child td {
+    border-bottom: none;
+}
+
+.appliances-detail tr {
+    transition: background-color 0.2s ease;
+}
+
+.appliances-detail tr:hover {
+    background-color: #f3f4ef; /
+}
+
+.appliances-detail tr.row-off td {
+    background-color: #fcf2f2; /* Very soft pastel red */
+    color: #a33a3a;            /* Muted dark red text to match */
+}
+
+/* Optional: Make the hover effect slightly darker red so it still feels interactive! */
+.appliances-detail tr.row-off:hover td {
+    background-color: #f5e6e6; 
 }

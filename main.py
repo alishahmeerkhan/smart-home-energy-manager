@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, flash, redirect, url_for
-from database import getUserData, createNewUser, energy_used
+from database import getUserData, createNewUser, energy_used, get_hourly_energy_usage, get_user_devices
 
 app = Flask(__name__)
 app.secret_key = 'database_project'
@@ -16,7 +16,15 @@ def login_page():
         if userData and username == userData[1] and password == userData[3]: 
             print('Successful login.')
             total_en = energy_used(userData[0])
-            return render_template('dashboard.html', usr=username, total_energy=total_en)
+            user_devices = get_user_devices(userData[0])
+            hourly_data = get_hourly_energy_usage(userData[0])
+
+            labels = hourly_data['labels']
+            values = hourly_data['data']
+
+            username = username.capitalize()
+            return render_template('dashboard.html', usr=username, total_energy=total_en, usr_device=user_devices, 
+                                   labels=labels, values=values)
         else:
             print(f"Failed login attempt for user: {username}")
             flash("Invalid username or password.")
