@@ -18,6 +18,14 @@ body {
     position: relative; 
 }
 
+.user-wel {
+    font-family: 'Orbitron', sans-serif; 
+    font-weight: 900;
+    font-size: 32px;
+    text-align: center;
+    color: #03396c;
+}
+
 h1 {
     font-family: 'Orbitron', sans-serif; 
     font-weight: 900;
@@ -50,6 +58,9 @@ h3 {
 }
 
 .user-welcome {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: absolute; 
     top: 70px;
     left: 40px;
@@ -58,7 +69,7 @@ h3 {
     border-radius: 12px; 
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); 
     max-width: 250px; 
-    width: 100%; 
+    max-height: 80px;
 }
 
 .total-energy {
@@ -156,11 +167,10 @@ h3 {
 }
 
 .appliances-detail tr.row-off td {
-    background-color: #fcf2f2; /* Very soft pastel red */
-    color: #a33a3a;            /* Muted dark red text to match */
+    background-color: #fcf2f2;
+    color: #a33a3a;
 }
 
-/* Optional: Make the hover effect slightly darker red so it still feels interactive! */
 .appliances-detail tr.row-off:hover td {
     background-color: #f5e6e6; 
 }

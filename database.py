@@ -76,8 +76,8 @@ def get_hourly_energy_usage(user_id):
             data_points = []
             
             for row in results:
-                labels.append(row[0])      # The Hour (e.g., "14:00")
-                data_points.append(row[1]) # The Total kWh (e.g., 2.5)
+                labels.append(row[0])
+                data_points.append(row[1])
                 
             return {
                 "labels": labels,
@@ -106,14 +106,65 @@ def get_user_devices(user_id):
                 WHERE u.UserID = :1
                 ORDER BY d.deviceid ASC
             """
-            
-            # Execute the query with our positional bind variable
+
             cursor.execute(query, (user_id,))
-            
-            # THE TRICK: Convert the results into a list of Dictionaries
             columns = [col[0].lower() for col in cursor.description]
             cursor.rowfactory = lambda *args: dict(zip(columns, args))
             
-            # Fetch and return the list of dictionaries
             devices = cursor.fetchall()
             return devices
+        
+def set_new_budget(userid, new_budget):
+    with pool.acquire() as connection:
+        with connection.cursor() as cursor:
+            query = f'UPDATE budgets SET budgetlimit = :1 WHERE userid = :2'
+            cursor.execute(query, (new_budget, userid))
+            connection.commit()
+
+def add_new_device(user_id, device_name, room_name, max_wattage, type_name='Home Appliance'):
+    with pool.acquire() as connection:
+        with connection.cursor() as cursor:
+            home_query = '''SELECT HomeID FROM Homes WHERE UserID = :1'''
+            cursor.execute(home_query, (user_id,))
+            home_row = cursor.fetchone()
+            if not home_row:
+                raise Exception("No home found for this user.")
+            home_id = home_row[0]
+
+            room_query = '''SELECT RoomID FROM Rooms WHERE RoomName = :1 AND HomeID = :2'''
+            cursor.execute(room_query, (room_name, home_id))
+            room_row = cursor.fetchone()
+            if room_row:
+                room_id = room_row[0]
+            else:
+                out_room_id = cursor.var(int)
+                insert_query_room = '''INSERT INTO Rooms (HomeID, RoomName) VALUES (:1, :2) RETURNING RoomID INTO :3'''
+                cursor.execute(insert_query_room, 
+                               [home_id, room_name, out_room_id])
+                room_id = out_room_id.getvalue()[0]
+
+            type_query = '''SELECT TypeID FROM device_types WHERE typename = :1 AND averagewattage = :2'''
+            cursor.execute(type_query, (type_name, max_wattage))
+            type_row = cursor.fetchone()
+            
+            if type_row:
+                type_id = type_row[0]
+            else:
+                out_type_id = cursor.var(int)
+                insert_query_type = '''INSERT INTO device_types (typename, averagewattage) 
+                                       VALUES (:1, :2) RETURNING typeid INTO :3'''
+                cursor.execute(insert_query_type, [type_name, max_wattage, out_type_id])
+                type_id = out_type_id.getvalue()[0]
+
+            insert_query_device = '''INSERT INTO devices (roomid, typeid, devicename, status) 
+                                     VALUES (:1, :2, :3, 'OFF')'''
+            cursor.execute(insert_query_device, (room_id, type_id, device_name))
+
+            connection.commit()
+
+def remove_old_device(user_id):
+    with pool.acquire() as connection:
+        with connection.cursor() as cursor:
+            query = '''DELETE FROM devices WHERE deviceid = :1'''
+            cursor.execute(query, (user_id,))
+            connection.commit()

@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, flash, redirect, url_for
-from database import getUserData, createNewUser, energy_used, get_hourly_energy_usage, get_user_devices
+from flask import Flask, render_template, request, flash, redirect, url_for, session
+from database import getUserData, createNewUser, energy_used, get_hourly_energy_usage, get_user_devices, set_new_budget
+from database import add_new_device, remove_old_device
 
 app = Flask(__name__)
 app.secret_key = 'database_project'
@@ -11,13 +12,19 @@ def login_page():
         password = request.form.get('password')
 
         userData = getUserData(username)
-        print(userData)
 
         if userData and username == userData[1] and password == userData[3]: 
             print('Successful login.')
+
             total_en = energy_used(userData[0])
             user_devices = get_user_devices(userData[0])
             hourly_data = get_hourly_energy_usage(userData[0])
+
+            session['user_id'] = userData[0]
+            session['username'] = userData[1]
+            session['total_energy'] = total_en
+            session['user_devices'] = user_devices
+            session['hourly_data'] = hourly_data
 
             labels = hourly_data['labels']
             values = hourly_data['data']
@@ -62,20 +69,51 @@ def register():
 def dashboard():
     return render_template('dashboard.html')
 
-@app.route('/budget_settings', methods=['POST'])
+@app.route('/budget_settings', methods=['GET', 'POST'])
 def budget_settings():
-    return render_template('budget_settings.html')
+    if request.method == 'POST':
+        new_budget = request.form.get('budget')
 
-@app.route('/profile', methods=['GET', 'POST'])
-def profile():
-    return render_template('profile.html')
+        new_budget = float(new_budget)
+        
+        if new_budget <= 0:
+            flash('Budget can not be zero or negative.')
+            return render_template('budget_settings.html')
+        else:
+            user_id = session.get('user_id')
+            set_new_budget(user_id, new_budget)
+            flash('New Budget Successfully Set.')
+            return render_template('budget_settings.html')
+    return render_template('budget_settings.html')
 
 @app.route('/manage_devices', methods=['GET', 'POST'])
 def manage_devices():
+    user_id = session.get('user_id')
+    devices = get_user_devices(user_id) 
+    return render_template('manage_devices.html', user_devices=devices)
+
+@app.route('/add_device', methods=['POST'])
+def add_device():
+    device_name = request.form.get('device_name')
+    room_name = request.form.get('room_name')
+    max_wattage = request.form.get('max_wattage')
+
+    userid = session.get('user_id')
+
+    add_new_device(userid, device_name, room_name, max_wattage)
+    flash('Device added successfully!')
+    return render_template('manage_devices.html')
+
+@app.route('/remove_device', methods=['POST'])
+def remove_device():
+    userid = session.get('user_id')
+    remove_old_device(userid)
+    flash('Device removed.')
     return render_template('manage_devices.html')
 
 @app.route('/logout')
 def logout():
+    session.clear() 
     return render_template('logout.html')
 
 if __name__ == '__main__':

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Appliances</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='manage_devices.css') }}">
+</head>
+<body>
+    
+    {% include 'navbar_template.html' %}
+
+    <div class="manage-container">
+        <div class="card shadow-lg">
+            <h2>Manage Appliances</h2>
+
+            <input type="radio" name="view-toggle" id="show-add" checked>
+            <input type="radio" name="view-toggle" id="show-remove">
+
+            <div class="toggle-bar">
+                <label for="show-add" class="tab-label add-tab">Add Appliance</label>
+                <label for="show-remove" class="tab-label remove-tab">Remove Appliance</label>
+                <div class="pill-bg"></div>
+            </div>
+
+            <div class="forms-wrapper">
+            
+                <div id="add-section" class="content-box">
+                    <form action="{{ url_for('add_device') }}" method="POST">
+                        <div class="input-group">
+                            <label>Device Name</label>
+                            <input type="text" name="device_name" placeholder="e.g. Living Room AC" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Room Name</label>
+                            <input type="text" name="room_name" placeholder="e.g. Bedroom" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Average Wattage</label>
+                            <input type="number" name="max_wattage" placeholder="Watts" required>
+                        </div>
+                        <button type="submit" class="btn-primary">Connect Device</button>
+                    </form>
+                </div>
+
+                <div id="remove-section" class="content-box">
+                    <form action="{{ url_for('remove_device') }}" method="POST">
+                        <div class="input-group">
+                            <label>Select Device to Remove</label>
+                            <select name="device_id" required>
+                                <option value="" disabled selected>Select an appliance...</option>
+                                {% for device in user_devices %}
+                                <option value="{{ device.device_id }}">{{ device.device_name }} ({{ device.room_name }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <p class="warning-text">Warning: This action cannot be undone.</p>
+                        <button type="submit" class="btn-danger">Remove Permanently</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

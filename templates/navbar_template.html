@@ -10,7 +10,7 @@
     <nav class="top-navbar">
     <div class="nav-left">
         <a href="{{ url_for('manage_devices') }}">Manage Devices</a>
-        <a href="{{ url_for('budget_settings') }}">Budget & Rates</a>
+        <a href="{{ url_for('budget_settings') }}">Set New Budget</a>
     </div>
 
     <div class="nav-center">
@@ -18,8 +18,7 @@
     </div>
 
     <div class="nav-right">
-        <a href="{{ url_for('profile') }}">Profile</a>
-        <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
+        <a href="{{ url_for('login_page') }}" class="btn-logout">Logout</a>
     </div>
 </nav>
 
