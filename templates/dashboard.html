@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+</head>
+<body>
+    {% include 'navbar_template.html' %}
+
+    <div class="user-welcome">
+        <h1>Welcome, {{ usr }}!</h1>
+    </div>
+
+    <div class="total-energy">
+        <h3>Total Energy Consumption</h3>
+        <p>{{ total_energy }} kWh</p>
+    </div>
+
+    <div class="energy-graph">
+        <h3>Energy Consumption graph here</h3>
+    </div>
+
+</body>
+</html>

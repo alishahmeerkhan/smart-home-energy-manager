@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, flash, redirect, url_for
-from database import getUserData, createNewUser
+from database import getUserData, createNewUser, energy_used
 
 app = Flask(__name__)
 app.secret_key = 'database_project'
@@ -15,7 +15,8 @@ def login_page():
 
         if userData and username == userData[1] and password == userData[3]: 
             print('Successful login.')
-            return "Login Successful! Welcome to the Dashboard." 
+            total_en = energy_used(userData[0])
+            return render_template('dashboard.html', usr=username, total_energy=total_en)
         else:
             print(f"Failed login attempt for user: {username}")
             flash("Invalid username or password.")
@@ -48,6 +49,26 @@ def register():
             return "Passwords do not match."
         
     return render_template('register.html')
+
+@app.route('/dashboard', methods=['GET', 'POST'])
+def dashboard():
+    return render_template('dashboard.html')
+
+@app.route('/budget_settings', methods=['POST'])
+def budget_settings():
+    return render_template('budget_settings.html')
+
+@app.route('/profile', methods=['GET', 'POST'])
+def profile():
+    return render_template('profile.html')
+
+@app.route('/manage_devices', methods=['GET', 'POST'])
+def manage_devices():
+    return render_template('manage_devices.html')
+
+@app.route('/logout')
+def logout():
+    return render_template('logout.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

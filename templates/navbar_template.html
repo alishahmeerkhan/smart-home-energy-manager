@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nav Bar Template</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='navbar_template.css') }}">
+</head>
+<body>
+    <nav class="top-navbar">
+    <div class="nav-left">
+        <a href="{{ url_for('manage_devices') }}">Manage Devices</a>
+        <a href="{{ url_for('budget_settings') }}">Budget & Rates</a>
+    </div>
+
+    <div class="nav-center">
+        <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="Logo" class="logo">
+    </div>
+
+    <div class="nav-right">
+        <a href="{{ url_for('profile') }}">Profile</a>
+        <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
+    </div>
+</nav>
+
+</body>
+</html>

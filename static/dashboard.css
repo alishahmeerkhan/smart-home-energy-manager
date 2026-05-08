@@ -1,0 +1,85 @@
+@font-face {
+    font-family: 'Orbitron';
+    src: url('Orbitron-VariableFont_wght.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+
+body {
+    background: #f3f4ef; 
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+    margin: 0;
+    position: relative; 
+    overflow: hidden; 
+}
+
+h1 {
+    font-family: 'Orbitron', sans-serif; 
+    font-weight: 900;
+    font-size: 32px;
+    margin-bottom: 20px; 
+    text-align: center;
+    color: #03396c;
+}
+
+h2 {
+    font-family: 'Orbitron', sans-serif; 
+    font-weight: 600;
+    font-size: 24px;
+    margin-bottom: 15px; 
+    color: #03396c;
+}
+
+h3 {
+    font-family: 'Inter', sans-serif; 
+    font-weight: 500;
+    font-size: 18px;
+    margin-bottom: 10px; 
+    color: #03396c;
+}
+
+.user-welcome {
+    position: absolute; 
+    top: 70px;
+    left: 40px;
+    background: #f3f4ef; 
+    padding: 40px; 
+    border-radius: 12px; 
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); 
+    max-width: 250px; 
+    width: 100%; 
+}
+
+.total-energy {
+    position: absolute; 
+    top: 250px;
+    left: 40px;
+    background: #f3f4ef; 
+    padding: 40px; 
+    border-radius: 12px; 
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); 
+    max-width: 250px; 
+    width: 100%; 
+}
+
+.energy-graph {
+    position: absolute;
+    top: 70px;   /* Matches the vertical height of the user-welcome box */
+    left: 390px;  /* Pushes it safely to the right of the welcome box */
+    
+    background: #f3f4ef;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    
+    /* I recommend making the graph box wider than 250px so the chart looks good! */
+    max-width: 1050px; 
+    height: 270px;
+    width: 100%;
+}
