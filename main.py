@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 from database import getUserData, createNewUser, energy_used, get_hourly_energy_usage, get_user_devices, set_new_budget
-from database import add_new_device, remove_old_device
+from database import add_new_device, remove_old_device, check_and_enforce_budget
 
 app = Flask(__name__)
 app.secret_key = 'database_project'
@@ -67,7 +67,24 @@ def register():
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
-    return render_template('dashboard.html')
+    user_id = session.get('user_id')
+    if not user_id:
+        return redirect(url_for('login_page'))
+
+    was_shut_down = check_and_enforce_budget(user_id)
+    if was_shut_down:
+        flash('CRITICAL: Monthly budget exceeded. All devices have been automatically powered down to save energy.')
+
+    total_en = energy_used(user_id)
+    user_devices = get_user_devices(user_id)
+    graph_data = get_hourly_energy_usage(user_id)
+
+    return render_template('dashboard.html', 
+                           usr=session.get('username'), 
+                           total_energy=total_en, 
+                           user_devices=user_devices,
+                           labels=graph_data['labels'], 
+                           values=graph_data['data'])
 
 @app.route('/budget_settings', methods=['GET', 'POST'])
 def budget_settings():

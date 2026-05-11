@@ -23,6 +23,11 @@
         <canvas id="line-chart" width="1000" height="250"></canvas>
         <script>
             var ctx = document.getElementById('line-chart').getContext('2d');
+
+            var gradientFill = ctx.createLinearGradient(0, 0, 0, 400); 
+            gradientFill.addColorStop(0, 'rgba(3, 57, 108, 1)'); // Top color
+            gradientFill.addColorStop(1, 'rgba(3, 57, 108, 0.5)'); // Bottom color
+
             var lineChart = new Chart(ctx, {
                 type: "line",
                 data: {
@@ -30,7 +35,7 @@
                     datasets: [{
                         data: {{ values | tojson | safe }},
                         fill: true,
-                        backgroundColor: "rgba(3, 57, 108)",
+                        backgroundColor: gradientFill,
                         lineTension: 0.3,
 
                         pointHoverRadius: 6,
@@ -42,6 +47,8 @@
                 options: {
                     responsive: false,
                     maintainAspectRatio: false,
+
+                    animation: false,
 
                     plugins: {
                         legend: {
@@ -77,3 +84,10 @@
 
 </body>
 </html>
+
+<script>
+    // Refresh the page every 10 seconds to fetch new simulator data
+    setTimeout(function() {
+        location.reload();
+    }, 5000); 
+</script>

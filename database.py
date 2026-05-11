@@ -1,4 +1,5 @@
 import oracledb
+from datetime import datetime
 
 oracledb.init_oracle_client()
 
@@ -80,14 +81,14 @@ def get_hourly_energy_usage(user_id):
                 data_points.append(row[1])
                 
             return {
-                "labels": labels,
-                "data": data_points
+                'labels': labels,
+                'data': data_points
             }
         
 def get_user_devices(user_id):
     with pool.acquire() as connection:
         with connection.cursor() as cursor:
-            query = """
+            query = '''
                 SELECT 
                     d.DeviceID AS device_id,
                     d.DeviceName AS device_name,
@@ -105,7 +106,7 @@ def get_user_devices(user_id):
                 JOIN Device_Types dt ON d.TypeID = dt.TypeID
                 WHERE u.UserID = :1
                 ORDER BY d.deviceid ASC
-            """
+            '''
 
             cursor.execute(query, (user_id,))
             columns = [col[0].lower() for col in cursor.description]
@@ -128,7 +129,7 @@ def add_new_device(user_id, device_name, room_name, max_wattage, type_name='Home
             cursor.execute(home_query, (user_id,))
             home_row = cursor.fetchone()
             if not home_row:
-                raise Exception("No home found for this user.")
+                raise Exception('No home found for this user.')
             home_id = home_row[0]
 
             room_query = '''SELECT RoomID FROM Rooms WHERE RoomName = :1 AND HomeID = :2'''
@@ -168,3 +169,50 @@ def remove_old_device(user_id):
             query = '''DELETE FROM devices WHERE deviceid = :1'''
             cursor.execute(query, (user_id,))
             connection.commit()
+
+def check_and_enforce_budget(user_id):
+    '''
+    Checks if the user exceeded their monthly financial budget. 
+    If yes, turns ALL devices OFF automatically.
+    '''
+    with pool.acquire() as connection:
+        with connection.cursor() as cursor:
+            now = datetime.now()
+            
+            cursor.execute('''
+                SELECT BudgetLimit FROM Budgets 
+                WHERE UserID = :1 AND BudgetMonth = :2 AND BudgetYear = :3
+            ''', (user_id, now.month, now.year))
+            budget_row = cursor.fetchone()
+            
+            if not budget_row:
+                return False
+            
+            budget_limit = budget_row[0]
+
+            cursor.execute('''
+                SELECT NVL(SUM(el.kWh_Used), 0) * NVL((SELECT PricePerKWh FROM Tariffs WHERE ROWNUM = 1), 1) AS TotalCost
+                FROM Energy_Logs el
+                JOIN Devices d ON el.DeviceID = d.DeviceID
+                JOIN Rooms r ON d.RoomID = r.RoomID
+                JOIN Homes h ON r.HomeID = h.HomeID
+                WHERE h.UserID = :1 AND EXTRACT(MONTH FROM el.LogDate) = :2
+            ''', (user_id, now.month))
+            current_cost = cursor.fetchone()[0]
+
+            if current_cost >= budget_limit:
+                print(f'USER {user_id} EXCEEDED BUDGET OF ${budget_limit}! Auto-shutting down devices...')
+                
+                cursor.execute('''
+                    UPDATE Devices d
+                    SET Status = 'OFF'
+                    WHERE d.RoomID IN (
+                        SELECT r.RoomID FROM Rooms r 
+                        JOIN Homes h ON r.HomeID = h.HomeID 
+                        WHERE h.UserID = :1
+                    )
+                ''', (user_id,))
+                connection.commit()
+                return True
+                
+            return False 

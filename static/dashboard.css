@@ -23,7 +23,7 @@ body {
     font-weight: 900;
     font-size: 32px;
     text-align: center;
-    color: #03396c;
+    color: #f3f4ef; ;
 }
 
 h1 {
@@ -64,7 +64,7 @@ h3 {
     position: absolute; 
     top: 70px;
     left: 40px;
-    background: #f3f4ef; 
+    background: #03396c;
     padding: 40px; 
     border-radius: 12px; 
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); 
